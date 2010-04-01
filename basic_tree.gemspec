@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "basic_tree.gemspec",
      "lib/basic_tree.rb",
      "spec/basic_tree_spec.rb",
      "spec/spec.opts",
