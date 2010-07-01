@@ -1,25 +1,4 @@
 class BasicTree
-  class Children
-    include Enumerable
-  
-    def each(&block)
-      trees.each(&block)
-    end
-    
-    def empty?
-      trees.empty?
-    end
-  
-    private
-  
-    def trees
-      @trees ||= []
-    end
-  
-    def <<(tree)
-      trees << tree
-    end
-  end
   
   include Enumerable
   
@@ -28,19 +7,14 @@ class BasicTree
     yield self if block_given?
   end
   
-  attr_accessor :object
-  attr_reader :parent
+  attr_accessor :object, :parent
   
   def add(object, &block)
     self.class.new(object) do |child|
-      children.send(:<<, child)
-      child.send(:parent=, self)
+      children << child
+      child.parent = self
       yield child if block_given?
     end
-  end
-  
-  def each(&block)
-    children.each(&block)
   end
   
   def path
@@ -51,27 +25,20 @@ class BasicTree
     root? ? [] : (parent.ancestors << parent)
   end
   
-  def descendants(depth = -1)
-    trees = []
-    if depth != 0
-      children.each do |child|
-        trees << child
-        trees += child.descendants(depth - 1)
-      end
-    end
-    trees
+  def descendants
+    children.map { |c| [c] + c.descendants }.flatten
   end
   
-  def subtree(depth = -1)
-    [self] + descendants(depth)
+  def subtree
+    [self] + descendants
   end
   
   def siblings
-    parent.children.select { |child| child != self }
+    root? ? [] : parent.children.select { |child| child != self }
   end
   
   def root
-    ancestors.first
+    path.first
   end
   
   def level
@@ -86,20 +53,8 @@ class BasicTree
     children.empty?
   end
   
-  def leaves
-    trees = []
-    children.each do |child|
-      child.leaf? ? (trees << child) : (trees += child.leaves)
-    end
-    trees
-  end
-  
-  private
-  
-  attr_writer :parent
-  
   def children
-    @children ||= Children.new
+    @children ||= []
   end
   
 end
