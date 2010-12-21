@@ -3,13 +3,17 @@ require 'spec_helper'
 describe BasicTree do
 
   before do
-    @a = BasicTree.new "a" do |a|
-      @a1 = a.add "a1" do |a1|
-        @a11 = a1.add "a11"
-        @a12 = a1.add "a12"
+    @a = BasicTree.new "a" do
+      add "a1" do
+        add "a11"
+        add "a12"
       end
-      @a2 = a.add "a2"
+      add "a2"
     end
+    @a1 = @a.children[0]
+    @a2 = @a.children[1]
+    @a11 = @a1.children[0]
+    @a12 = @a1.children[1]
   end
 
   it "path" do

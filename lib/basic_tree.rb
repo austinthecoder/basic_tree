@@ -4,19 +4,19 @@ class BasicTree
 
   VERSION = "0.1.1"
 
-  def initialize(object, &block)
+  def initialize(object, parent = nil, &block)
     self.object = object
-    yield self if block_given?
+    if parent
+      self.parent = parent
+      parent.children << self
+    end
+    instance_eval(&block) if block_given?
   end
 
   attr_accessor :object, :parent
 
   def add(object, &block)
-    self.class.new(object) do |child|
-      children << child
-      child.parent = self
-      yield child if block_given?
-    end
+    self.class.new(object, self, &block)
   end
 
   def path
