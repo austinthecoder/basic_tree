@@ -4,7 +4,7 @@ A basic Ruby tree structure with nice syntax.
 
 == Example
 
-  BasicTree.new "Fruit" do
+  fruit = BasicTree.new "Fruit" do
     add "Apple" do
       add "Red Delicious"
     end
@@ -14,6 +14,53 @@ A basic Ruby tree structure with nice syntax.
     end
     add "Orange"
   end
+
+  fruit.object
+  # "Fruit"
+
+  banana = fruit.children[1]
+  banana.object
+  # "Banana"
+
+  plantain = banana.children[1]
+  plantain.object
+  # "Plantain"
+
+  plantain.parent.object
+  # "Banana""
+
+  plantain.path.map(&:object)
+  # ["Fruit", "Banana", "Plantain"]
+
+  plantain.ancestors.map(&:object) # ancestors is like path except it doesn't include itself
+  # ["Fruit", "Banana"]
+
+  banana.subtree.map(&:object)
+  # ["Banana", "Manzano", "Plantain"]
+
+  fruit.descendants.map(&:object) # descendants is like subtree except it doesn't include itself
+  # ["Apple", "Red Delicious", "Banana", "Manzano", "Plantain", "Orange"]
+
+  banana.siblings.map(&:object)
+  # ["Apple", "Orange"]
+
+  plantain.root.object
+  # "Fruit"
+
+  plantain.level
+  # 3
+
+  banana.root?
+  # false
+
+  fruit.root?
+  # true
+
+  banana.leaf?
+  # false
+
+  plantain.leaf?
+  # true
 
 == Note on Patches/Pull Requests
 
