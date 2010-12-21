@@ -2,7 +2,7 @@ class BasicTree
 
   include Enumerable
 
-  VERSION = "0.1.1"
+  VERSION = "1.0.0"
 
   def initialize(object, parent = nil, &block)
     self.object = object
