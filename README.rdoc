@@ -18,16 +18,13 @@ A basic Ruby tree structure with nice syntax.
   fruit.object
   # "Fruit"
 
-  banana = fruit.children[1]
-  banana.object
-  # "Banana"
+  banana = fruit.get(2) # get the 2nd fruit
+  banana.object # "Banana"
 
-  plantain = banana.children[1]
-  plantain.object
-  # "Plantain"
+  plantain = banana.get(2) # get the 2nd banana
+  plantain.object # "Plantain"
 
-  plantain.parent.object
-  # "Banana""
+  plantain.parent.object # "Banana"
 
   plantain.path.map(&:object)
   # ["Fruit", "Banana", "Plantain"]
@@ -44,23 +41,17 @@ A basic Ruby tree structure with nice syntax.
   banana.siblings.map(&:object)
   # ["Apple", "Orange"]
 
-  plantain.root.object
-  # "Fruit"
+  plantain.root.object # "Fruit"
 
-  plantain.level
-  # 3
+  plantain.level # 3
 
-  banana.root?
-  # false
+  banana.root? # false
 
-  fruit.root?
-  # true
+  fruit.root? # true
 
-  banana.leaf?
-  # false
+  banana.leaf? # false
 
-  plantain.leaf?
-  # true
+  plantain.leaf? # true
 
 == Note on Patches/Pull Requests
 
@@ -74,4 +65,4 @@ A basic Ruby tree structure with nice syntax.
 
 == Copyright
 
-Copyright (c) 2010 Austin Schneider. See LICENSE for details.
+See LICENSE for details.
