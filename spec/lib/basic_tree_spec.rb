@@ -139,7 +139,7 @@ describe BasicTree do
           @k1 = mock(BasicTree)
           @k2 = mock(BasicTree)
 
-          @bt.stub!(:parent => mock(BasicTree, :kids => [@k1, @bt, @k2]))
+          @bt.stub!(:parent => mock(BasicTree, :children => [@k1, @bt, @k2]))
         end
 
         it "returns parent's children (without itself)" do

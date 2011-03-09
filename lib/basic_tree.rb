@@ -4,8 +4,6 @@ class BasicTree
 
   include Enumerable
 
-  VERSION = "1.0.0"
-
   class Kids < Array
     def swap!(p1, p2)
       self[p1], self[p2] = self[p2], self[p1]
@@ -134,3 +132,5 @@ class BasicTree
   end
 
 end
+
+require 'basic_tree/version'
