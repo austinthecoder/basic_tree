@@ -16,6 +16,16 @@ describe BasicTree do
     @a12 = @a1.children[1]
   end
 
+  it "allows for a different initialization syntax" do
+    @a.should == BasicTree.new("a") do |t|
+      t.add "a1" do |t|
+        t.add "a11"
+        t.add "a12"
+      end
+      t.add "a2"
+    end
+  end
+
   describe "instance methods" do
     before do
       @object = "soccer"
@@ -145,6 +155,35 @@ describe BasicTree do
         it "returns parent's children (without itself)" do
           @bt.siblings.should eq([@k1, @k2])
         end
+      end
+    end
+
+    describe "#<=>" do
+      before do
+        @t1 = BasicTree.new "a" do
+          add "a1"
+          add "a2"
+        end
+        @t2 = BasicTree.new "a" do
+          add "a1"
+          add "a2"
+        end
+      end
+
+      context "when comparing the subtrees returns a 0" do
+        it { (@t1 <=> @t2).should eq(0) }
+      end
+
+      context "when comparing the subtrees returns a 1" do
+        before { @t2 = BasicTree.new("a") { add "a1" } }
+
+        it { (@t1 <=> @t2).should eq(1) }
+      end
+
+      context "when comparing the subtrees returns a -1" do
+        before { @t2.add "a3" }
+
+        it { (@t1 <=> @t2).should eq(-1) }
       end
     end
   end

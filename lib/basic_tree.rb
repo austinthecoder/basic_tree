@@ -3,6 +3,7 @@ require 'active_support/core_ext/object'
 class BasicTree
 
   include Enumerable
+  include Comparable
 
   class Kids < Array
     def swap!(p1, p2)
@@ -16,7 +17,9 @@ class BasicTree
   def initialize(object, parent = nil, &block)
     self.object = object
     parent.try(:insert!, self)
-    instance_eval(&block) if block_given?
+    if block_given?
+      block.arity == 1 ? yield(self) : instance_eval(&block)
+    end
   end
 
   # TODO: test
@@ -35,7 +38,7 @@ class BasicTree
     kids << basic_tree
   end
 
-  # TODO: self
+  # TODO: test
   def remove!(basic_tree)
     raise ArgumentError, "Must be a #{self.class}" unless basic_tree.is_a?(self.class)
     raise StandardError, "Can't remove root" if root?
@@ -84,7 +87,7 @@ class BasicTree
   end
 
   def siblings
-    root? ? [] : siblings_and_self.delete_if { |s| s == self }
+    root? ? [] : siblings_and_self.delete_if { |s| s.equal?(self) }
   end
 
   ##################################################
@@ -120,6 +123,12 @@ class BasicTree
 
   def last?
     root? || siblings_and_self.last == self
+  end
+
+  ##################################################
+
+  def <=>(other)
+    subtree.map(&:object) <=> other.subtree.map(&:object)
   end
 
   ##################################################
